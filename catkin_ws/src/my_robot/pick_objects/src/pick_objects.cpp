@@ -24,8 +24,9 @@ int main(int argc, char** argv){
   goal.target_pose.header.stamp = ros::Time::now();
 
   // Define a goal position 1 to reach
-  goal.target_pose.pose.position.x = -9.25;
-  goal.target_pose.pose.position.y = -7.5;
+  goal.target_pose.pose.position.x = -4.5;
+  goal.target_pose.pose.position.y = 7;
+  goal.target_pose.pose.orientation.w = 1.0;
 
    // Send the goal position and orientation for the robot to reach
   ROS_INFO("Sending goal #1");
@@ -40,9 +41,14 @@ int main(int argc, char** argv){
   else
     ROS_INFO("The base failed to reach the goal #1 for some reason");
 
+  // Wait 5 sec to pick up object
+  ROS_INFO("Waiting five seconds to pick up object");
+  ros::Duration(5.0).sleep();
+
   // Define a goal position 2 to reach
-  goal.target_pose.pose.position.x = 0.75;
-  goal.target_pose.pose.position.y = -6.75;
+  goal.target_pose.pose.position.x = -2;
+  goal.target_pose.pose.position.y = 4;
+  goal.target_pose.pose.orientation.w = 1.0;
 
    // Send the goal position and orientation for the robot to reach
   ROS_INFO("Sending goal #2");

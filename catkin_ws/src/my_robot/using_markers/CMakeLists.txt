@@ -1,16 +1,15 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(my_robot)
+project(using_markers)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-add_compile_options(-std=c++11)
+# add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED
+find_package(catkin REQUIRED COMPONENTS
   roscpp
-  actionlib
-  move_base_msgs
+  visualization_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -68,10 +67,10 @@ find_package(catkin REQUIRED
 # )
 
 ## Generate added messages and services with any dependencies listed here
-#generate_messages(
-#  DEPENDENCIES
-#  std_msgs
-#)
+# generate_messages(
+#   DEPENDENCIES
+#   visualization_msgs
+# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -104,8 +103,8 @@ find_package(catkin REQUIRED
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES my_robot
-#  CATKIN_DEPENDS other_catkin_pkg
+#  LIBRARIES using_markers
+#  CATKIN_DEPENDS roscpp visualization_msgs
 #  DEPENDS system_lib
 )
 
@@ -115,13 +114,14 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(include 
+include_directories(
+# include
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/myRobot.cpp
+#   src/${PROJECT_NAME}/using_markers.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -132,8 +132,7 @@ include_directories(include
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(pick_objects pick_objects/src/pick_objects.cpp)
-add_executable(basic_shapes using_markers/src/basic_shapes.cpp)
+# add_executable(${PROJECT_NAME}_node src/using_markers_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -149,8 +148,6 @@ add_executable(basic_shapes using_markers/src/basic_shapes.cpp)
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
-target_link_libraries(pick_objects ${catkin_LIBRARIES})
-target_link_libraries(basic_shapes ${catkin_LIBRARIES})
 
 #############
 ## Install ##
@@ -192,7 +189,7 @@ target_link_libraries(basic_shapes ${catkin_LIBRARIES})
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_myRobot.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_using_markers.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
