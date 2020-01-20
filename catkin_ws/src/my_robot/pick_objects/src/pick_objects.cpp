@@ -29,7 +29,7 @@ int main(int argc, char** argv){
   goal.target_pose.pose.orientation.w = 1.0;
 
    // Send the goal position and orientation for the robot to reach
-  ROS_INFO("Sending goal #1");
+  ROS_INFO("Travelling to goal #1");
   ac.sendGoal(goal);
 
   // Wait an infinite time for the results
@@ -51,7 +51,7 @@ int main(int argc, char** argv){
   goal.target_pose.pose.orientation.w = 1.0;
 
    // Send the goal position and orientation for the robot to reach
-  ROS_INFO("Sending goal #2");
+  ROS_INFO("Travelling to goal #2");
   ac.sendGoal(goal);
 
   // Wait an infinite time for the results
