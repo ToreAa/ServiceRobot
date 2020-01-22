@@ -134,6 +134,8 @@ include_directories(include
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(pick_objects pick_objects/src/pick_objects.cpp)
 add_executable(basic_shapes using_markers/src/basic_shapes.cpp)
+add_executable(add_markers using_markers/src/add_markers.cpp)
+
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -151,6 +153,7 @@ add_executable(basic_shapes using_markers/src/basic_shapes.cpp)
 # )
 target_link_libraries(pick_objects ${catkin_LIBRARIES})
 target_link_libraries(basic_shapes ${catkin_LIBRARIES})
+target_link_libraries(add_markers ${catkin_LIBRARIES})
 
 #############
 ## Install ##
