@@ -14,14 +14,14 @@ void odomCallback(const nav_msgs::Odometry::ConstPtr& msg)
 {
   posx = msg->pose.pose.position.x;
   posy = msg->pose.pose.position.y;
-  // ROS_INFO("Position-> x: [%f], y: [%f]", posx , posy);
+  ROS_INFO("Position-> x: [%f], y: [%f]", posx , posy);
 }
 
 void poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
 {
   goalx1 = msg->pose.position.x;
   goaly1 = msg->pose.position.y;
-  ROS_INFO("Goal-> x: [%f], y: [%f]", goalx1 , goaly1);
+  ROS_INFO("Position-> x: [%f], y: [%f]", posx , posy);
 }
 
 int main( int argc, char** argv )
@@ -53,7 +53,7 @@ int main( int argc, char** argv )
     // State-machine for the various steps
     switch (i)
     {
-    case 0: // Publish the marker at the pickup zone
+    case 0: // Publish the marker at the pickup zone for 5 seconds
       marker.action = visualization_msgs::Marker::ADD;
       marker.pose.position.x = goalx1;
       marker.pose.position.y = goaly1;
@@ -66,16 +66,14 @@ int main( int argc, char** argv )
       marker.color.a = 0.8;
       marker.lifetime = ros::Duration(); 
       marker_pub.publish(marker); 
-      if ((abs (posx-goalx1) < 0.1) && (abs (posy-goaly1) < 0.1)) { //Check if goal is reached
-        i = 1;
-      }
+      ros::Duration(2.0).sleep();
+      i = 1;
       break;
     case 1: // Wait for 5 seconds
       marker.action = visualization_msgs::Marker::DELETEALL; 
       marker_pub.publish(marker);
-      if ((abs (posx-goalx2) < 0.1) && (abs (posy-goaly2) < 0.1)) { //Check if goal is reached
-        i = 2;
-      }
+      ros::Duration(2.0).sleep();
+      i = 2;
       break;
     case 2: // Publish the marker at the drop off zone  
       marker.action = visualization_msgs::Marker::ADD;
