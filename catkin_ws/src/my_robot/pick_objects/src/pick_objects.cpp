@@ -24,8 +24,8 @@ int main(int argc, char** argv){
   goal.target_pose.header.stamp = ros::Time::now();
 
   // Define a goal position 1 to reach
-  goal.target_pose.pose.position.x = -4.5;
-  goal.target_pose.pose.position.y = 7;
+  goal.target_pose.pose.position.x = -5.6;
+  goal.target_pose.pose.position.y = 7.4;
   goal.target_pose.pose.orientation.w = 1.0;
 
    // Send the goal position and orientation for the robot to reach

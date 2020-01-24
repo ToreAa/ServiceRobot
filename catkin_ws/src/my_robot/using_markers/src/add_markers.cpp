@@ -1,5 +1,20 @@
 #include <ros/ros.h>
 #include <visualization_msgs/Marker.h>
+#include <nav_msgs/Odometry.h>
+
+double posx;
+double posy;
+double goalx1 = -5.6;
+double goaly1 = 7.4;
+double goalx2 = -2;
+double goaly2 = 4;
+
+void odomCallback(const nav_msgs::Odometry::ConstPtr& msg)
+{
+  posx = msg->pose.pose.position.x;
+  posy = msg->pose.pose.position.y;
+  ROS_INFO("Position-> x: [%f], y: [%f]", posx , posy);
+}
 
 int main( int argc, char** argv )
 {
@@ -12,6 +27,8 @@ int main( int argc, char** argv )
   while (ros::ok())
   {
     visualization_msgs::Marker marker;
+    ros::Subscriber sub = n.subscribe("/odom", 100, odomCallback);
+    
     // Set the frame ID and timestamp.  See the TF tutorials for information on these.
     marker.header.frame_id = "/map";
     marker.header.stamp = ros::Time::now();
@@ -23,46 +40,53 @@ int main( int argc, char** argv )
 
     // Set the marker type to CUBE and the orientation 
     marker.type = visualization_msgs::Marker::CUBE;
-    marker.pose.orientation.x = 0.0;  
-    marker.pose.orientation.y = 0.0;
-    marker.pose.orientation.z = 0.0;
-    marker.pose.orientation.w = 1.0;
-
-    // Set the scale of the marker -- 1x1x1 here means 1m on a side
-    marker.scale.x = 0.3;
-    marker.scale.y = 0.3;
-    marker.scale.z = 0.3;
-
-    // Set the color -- be sure to set alpha to something non-zero!
-    marker.color.r = 0.9f;
-    marker.color.g = 0.2f;
-    marker.color.b = 0.5f;
-    marker.color.a = 0.9;
 
     // State-machine for the various steps
     switch (i)
     {
     case 0: // Publish the marker at the pickup zone for 5 seconds
       marker.action = visualization_msgs::Marker::ADD;
-      marker.pose.position.x = -4.5;
-      marker.pose.position.y = 7; 
-      marker.lifetime = ros::Duration(5.0);  
-      marker_pub.publish(marker);
-      ros::Duration(5.0).sleep();
+      marker.pose.position.x = goalx1;
+      marker.pose.position.y = goaly1;
+      marker.pose.position.z = 0;
+      marker.pose.orientation.x = 0.0;
+      marker.pose.orientation.y = 0.0;
+      marker.pose.orientation.z = 0.0;
+      marker.pose.orientation.w = 1.0;
+      marker.scale.x = 0.3;
+      marker.scale.y = 0.3;
+      marker.scale.z = 0.3;
+      marker.color.r = 0.9f;
+      marker.color.g = 0.2f;
+      marker.color.b = 0.5f;
+      marker.color.a = 0.8;
+      marker.lifetime = ros::Duration();  
+      ros::Duration(2.0).sleep();
       i = 1;
       break;
     case 1: // Wait for 5 seconds
-      marker.action = visualization_msgs::Marker::DELETE;
-      ros::Duration(5.0).sleep();
+      marker.action = visualization_msgs::Marker::DELETEALL; 
+      ros::Duration(2.0).sleep();
       i = 2;
       break;
     case 2: // Publish the marker at the drop off zone  
       marker.action = visualization_msgs::Marker::ADD;
-      marker.pose.position.x = -2;
-      marker.pose.position.y = 4;
-      marker.lifetime = ros::Duration(10.0);
-      marker_pub.publish(marker);
-      ros::Duration(10.0).sleep();
+      marker.pose.position.x = goalx2;
+      marker.pose.position.y = goaly2;
+      marker.pose.position.z = 0;
+      marker.pose.orientation.x = 0.0;
+      marker.pose.orientation.y = 0.0;
+      marker.pose.orientation.z = 0.0;
+      marker.pose.orientation.w = 1.0;
+      marker.scale.x = 0.3;
+      marker.scale.y = 0.3;
+      marker.scale.z = 0.3;
+      marker.color.r = 0.9f;
+      marker.color.g = 0.2f;
+      marker.color.b = 0.5f;
+      marker.color.a = 0.8;
+      marker.lifetime = ros::Duration();
+      ros::Duration(3.0).sleep();
       i = 0; 
       break;
     } 
@@ -76,7 +100,9 @@ int main( int argc, char** argv )
       ROS_WARN_ONCE("Please create a subscriber to the marker");
       sleep(1);
     }
+    marker_pub.publish(marker);
 
+    ros::spinOnce();
     r.sleep();
   }
 }
