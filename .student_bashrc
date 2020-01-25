@@ -2,4 +2,5 @@ export PATH=/usr/bin:$PATH
 source /opt/ros/kinetic/setup.bash
 source /home/workspace/catkin_ws/devel/setup.bash
 alias ss="source devel/setup.bash"
+alias cm="catkin_make"
 cd /home/workspace/
